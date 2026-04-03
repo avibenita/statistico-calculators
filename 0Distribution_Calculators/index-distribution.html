@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribution Calculators</title>
+    <style>
+        :root {
+            --bg: #060f1d;
+            --panel: #111f34;
+            --panel-2: #0d1a2c;
+            --border: rgba(120, 200, 255, 0.25);
+            --text: #e7f0ff;
+            --muted: #9ab1cc;
+            --accent: #78c8ff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(ellipse at 10% 0%, rgba(255, 165, 120, 0.16), transparent 35%), linear-gradient(180deg, #040c1a, var(--bg));
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        .app {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .sidebar {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: linear-gradient(180deg, var(--panel), var(--panel-2));
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        .sidebar h1 {
+            font-size: 1.02rem;
+            margin-bottom: 8px;
+            color: #ffd8c1;
+        }
+
+        .sidebar p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .dist-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .dist-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            border: 1px solid rgba(120, 200, 255, 0.24);
+            border-radius: 10px;
+            padding: 8px 10px;
+            color: var(--text);
+            background: rgba(120, 200, 255, 0.08);
+            cursor: pointer;
+            font-size: 0.84rem;
+        }
+
+        .dist-btn.active {
+            border-color: rgba(120, 200, 255, 0.7);
+            background: rgba(120, 200, 255, 0.2);
+        }
+
+        .workspace {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(16, 31, 51, 0.9), rgba(9, 21, 38, 0.95));
+            box-shadow: 0 0 0 1px rgba(120, 200, 255, 0.1) inset, 0 0 26px rgba(120, 200, 255, 0.14);
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .workspace-head {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(120, 200, 255, 0.2);
+            color: #d7e8ff;
+            font-size: 0.9rem;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <h1>Distribution Calculators</h1>
+        <p>Select a calculator to load it in the right panel.</p>
+        <div class="dist-list">
+            <button class="dist-btn active" data-src="../statistical-distributions/Normal.html">Normal</button>
+            <button class="dist-btn" data-src="../statistical-distributions/TDistribution.html">t Distribution</button>
+            <button class="dist-btn" data-src="../statistical-distributions/FDistribution.html">F Distribution</button>
+            <button class="dist-btn" data-src="../statistical-distributions/ChiSquare.html">Chi-Square</button>
+            <button class="dist-btn" data-src="../statistical-distributions/BinomialDistribution.html">Binomial</button>
+            <button class="dist-btn" data-src="../statistical-distributions/PoissonDistribution.html">Poisson</button>
+            <button class="dist-btn" data-src="../statistical-distributions/UniformDistribution.html">Uniform</button>
+            <button class="dist-btn" data-src="../statistical-distributions/ExponentialDistribution.html">Exponential</button>
+        </div>
+    </aside>
+
+    <section class="workspace">
+        <div class="workspace-head" id="workspaceTitle">Normal Distribution</div>
+        <iframe id="distFrame" src="../statistical-distributions/Normal.html" title="Distribution calculator"></iframe>
+    </section>
+</div>
+
+<script>
+    (function () {
+        var buttons = document.querySelectorAll(".dist-btn");
+        var frame = document.getElementById("distFrame");
+        var title = document.getElementById("workspaceTitle");
+
+        buttons.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                buttons.forEach(function (b) { b.classList.remove("active"); });
+                btn.classList.add("active");
+                frame.src = btn.getAttribute("data-src");
+                title.textContent = btn.textContent + " Distribution";
+            });
+        });
+    })();
+</script>
+</body>
+</html>
