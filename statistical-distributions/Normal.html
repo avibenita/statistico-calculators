@@ -15,6 +15,42 @@
     
     <!-- Common Calculator Styles -->
     <link href="calculator-common.css" rel="stylesheet"/>
+    <style>
+        .control-panel-sections {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 100%;
+            flex: 1;
+        }
+
+        .control-block-inputs,
+        .control-block-calculation {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .control-block-about {
+            margin: 0 -18px -18px -18px;
+            padding: 12px 18px 18px 18px;
+            border-top: 1px solid rgba(120,165,255,0.2);
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .control-panel-sections {
+                justify-content: flex-start;
+                min-height: auto;
+            }
+
+            .control-block-about {
+                margin: 0;
+                padding: 12px 0 0 0;
+                border-top: 1px solid rgba(120,165,255,0.2);
+            }
+        }
+    </style>
     </head>
 <body style="margin: 0; overflow: hidden;">
     <div style="width: 100vw; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center;">
@@ -116,77 +152,83 @@
                                 Reset
                             </button>
                         </div>
-                        <div class="input-group">
-                            <label>
-                                Mean (μ)
-                                <small style="color: #bbb; font-weight: normal; display: block; margin-top: 2px;">Center of the distribution</small>
-                            </label>
-                            <div class="input-row">
-                                <input class="input-field" id="mean" step="0.1" type="number" value="0" placeholder="e.g., 0, 5, -2"/>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <label>
-                                Standard Deviation (σ)
-                                <small style="color: #bbb; font-weight: normal; display: block; margin-top: 2px;">Spread (must be > 0)</small>
-                            </label>
-                            <div class="input-row">
-                                <input class="input-field" id="stddev" min="0.01" step="0.1" type="number" value="1" placeholder="e.g., 1, 2, 0.5"/>
-                            </div>
-                        </div>
-                        <div id="inputSection">
-                            <div class="input-group">
-                                <label>
-                                    X Value
-                                </label>
-                                <input class="input-field" id="xValue" step="0.1" type="number" value="0"/>
-                            </div>
-                        </div>
-                        <div class="calculation-type">
-                            <h4 style="margin-bottom: 10px; color: var(--header-color); font-size: 0.95rem;">
-                                Calculation Type
-                            </h4>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input checked="" name="calcType" type="radio" value="probability"/>
-                                    <div>
-                                        <strong>Find P(X ≤ x)</strong>
-                                        <small style="color: #bbb; display: block; margin-top: 2px;">Probability up to a value</small>
+                        <div class="control-panel-sections">
+                            <div class="control-block-inputs">
+                                <div class="input-group">
+                                    <label>
+                                        Mean (μ)
+                                        <small style="color: #bbb; font-weight: normal; display: block; margin-top: 2px;">Center of the distribution</small>
+                                    </label>
+                                    <div class="input-row">
+                                        <input class="input-field" id="mean" step="0.1" type="number" value="0" placeholder="e.g., 0, 5, -2"/>
                                     </div>
-                                </label>
-                                <label class="radio-option">
-                                    <input name="calcType" type="radio" value="between"/>
-                                    <div>
-                                        <strong>Find P(a ≤ X ≤ b)</strong>
-                                        <small style="color: #bbb; display: block; margin-top: 2px;">Probability between two values</small>
+                                </div>
+                                <div class="input-group">
+                                    <label>
+                                        Standard Deviation (σ)
+                                        <small style="color: #bbb; font-weight: normal; display: block; margin-top: 2px;">Spread (must be > 0)</small>
+                                    </label>
+                                    <div class="input-row">
+                                        <input class="input-field" id="stddev" min="0.01" step="0.1" type="number" value="1" placeholder="e.g., 1, 2, 0.5"/>
                                     </div>
-                                </label>
-                                <label class="radio-option">
-                                    <input name="calcType" type="radio" value="quantile"/>
-                                    <div>
-                                        <strong>Find Value for Given Probability</strong>
-                                        <small style="color: #bbb; display: block; margin-top: 2px;">What value has this probability below it?</small>
+                                </div>
+                                <div id="inputSection">
+                                    <div class="input-group">
+                                        <label>
+                                            X Value
+                                        </label>
+                                        <input class="input-field" id="xValue" step="0.1" type="number" value="0"/>
                                     </div>
-                                </label>
+                                </div>
                             </div>
-                        </div>
-                          <!-- About Section Toggle Button -->
-                        <div style="margin: 15px -18px -18px -18px; padding: 12px 18px 18px 18px; border-top: 1px solid rgba(120,165,255,0.2); text-align: center;">
-                            <button onclick="openAboutModal()" style="
-                                width: 80%;
-                                background: linear-gradient(135deg, rgba(120,165,255,0.2), rgba(120,200,255,0.15));
-                                border: 1px solid rgba(120,165,255,0.4);
-                                color: rgb(120,200,255);
-                                padding: 8px 16px;
-                                border-radius: 8px;
-                                font-size: 0.9rem;
-                                cursor: pointer;
-                                transition: all 0.3s ease;
-                                font-weight: 600;
-                                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-                            " onmouseover="this.style.background='linear-gradient(135deg, rgba(120,165,255,0.3), rgba(120,200,255,0.25))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(120,165,255,0.3)'" onmouseout="this.style.background='linear-gradient(135deg, rgba(120,165,255,0.2), rgba(120,200,255,0.15))'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'">
-                                <i class="fas fa-info-circle"></i> About Normal Distribution...
-                            </button>
+                            <div class="control-block-calculation">
+                                <div class="calculation-type">
+                                    <h4 style="margin-bottom: 10px; color: var(--header-color); font-size: 0.95rem;">
+                                        Calculation Type
+                                    </h4>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input checked="" name="calcType" type="radio" value="probability"/>
+                                            <div>
+                                                <strong>Find P(X ≤ x)</strong>
+                                                <small style="color: #bbb; display: block; margin-top: 2px;">Probability up to a value</small>
+                                            </div>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input name="calcType" type="radio" value="between"/>
+                                            <div>
+                                                <strong>Find P(a ≤ X ≤ b)</strong>
+                                                <small style="color: #bbb; display: block; margin-top: 2px;">Probability between two values</small>
+                                            </div>
+                                        </label>
+                                        <label class="radio-option">
+                                            <input name="calcType" type="radio" value="quantile"/>
+                                            <div>
+                                                <strong>Find Value for Given Probability</strong>
+                                                <small style="color: #bbb; display: block; margin-top: 2px;">What value has this probability below it?</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- About Section Toggle Button -->
+                            <div class="control-block-about">
+                                <button onclick="openAboutModal()" style="
+                                    width: 80%;
+                                    background: linear-gradient(135deg, rgba(120,165,255,0.2), rgba(120,200,255,0.15));
+                                    border: 1px solid rgba(120,165,255,0.4);
+                                    color: rgb(120,200,255);
+                                    padding: 8px 16px;
+                                    border-radius: 8px;
+                                    font-size: 0.9rem;
+                                    cursor: pointer;
+                                    transition: all 0.3s ease;
+                                    font-weight: 600;
+                                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                                " onmouseover="this.style.background='linear-gradient(135deg, rgba(120,165,255,0.3), rgba(120,200,255,0.25))'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(120,165,255,0.3)'" onmouseout="this.style.background='linear-gradient(135deg, rgba(120,165,255,0.2), rgba(120,200,255,0.15))'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'">
+                                    <i class="fas fa-info-circle"></i> About Normal Distribution...
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="visualization-panel">
