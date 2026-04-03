@@ -117,15 +117,66 @@
             gap: 8px;
         }
 
+        .dist-group {
+            border: 1px solid rgba(120, 200, 255, 0.24);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(10, 24, 42, 0.7);
+        }
+
+        .dist-group summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 10px 12px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: #eef5ff;
+            border-bottom: 1px solid rgba(120, 200, 255, 0.18);
+            background: linear-gradient(180deg, rgba(16, 37, 64, 0.95), rgba(10, 28, 50, 0.95));
+        }
+
+        .dist-group summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .summary-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-left i {
+            color: #f2a277;
+        }
+
+        .summary-caret {
+            color: #f2a277;
+            font-size: 0.76rem;
+            transition: transform 0.2s ease;
+        }
+
+        .dist-group[open] .summary-caret {
+            transform: rotate(90deg);
+        }
+
+        .dist-items {
+            display: grid;
+            gap: 1px;
+            background: rgba(120, 200, 255, 0.1);
+        }
+
         .dist-btn {
             display: block;
             width: 100%;
             text-align: left;
-            border: 1px solid rgba(120, 200, 255, 0.24);
-            border-radius: 10px;
+            border: 0;
             padding: 8px 10px;
             color: var(--text);
-            background: rgba(120, 200, 255, 0.08);
+            background: rgba(9, 22, 38, 0.98);
             cursor: pointer;
             font-size: 0.84rem;
         }
@@ -173,14 +224,45 @@
             <h1>Distribution Calculators</h1>
             <p>Select a calculator to load it in the right panel.</p>
             <div class="dist-list">
-                <button class="dist-btn active" data-src="../statistical-distributions/Normal.html">Normal</button>
-                <button class="dist-btn" data-src="../statistical-distributions/TDistribution.html">t Distribution</button>
-                <button class="dist-btn" data-src="../statistical-distributions/FDistribution.html">F Distribution</button>
-                <button class="dist-btn" data-src="../statistical-distributions/ChiSquare.html">Chi-Square</button>
-                <button class="dist-btn" data-src="../statistical-distributions/BinomialDistribution.html">Binomial</button>
-                <button class="dist-btn" data-src="../statistical-distributions/PoissonDistribution.html">Poisson</button>
-                <button class="dist-btn" data-src="../statistical-distributions/UniformDistribution.html">Uniform</button>
-                <button class="dist-btn" data-src="../statistical-distributions/ExponentialDistribution.html">Exponential</button>
+                <details class="dist-group" open>
+                    <summary>
+                        <span class="summary-left"><i class="fa-solid fa-chart-line"></i> Continuous Distributions</span>
+                        <i class="fa-solid fa-caret-right summary-caret"></i>
+                    </summary>
+                    <div class="dist-items">
+                        <button class="dist-btn active" data-src="../statistical-distributions/Normal.html">Normal Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/UniformDistribution.html">Uniform Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/ExponentialDistribution.html">Exponential Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/LogNormalDistribution.html">Log-Normal Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/WeibullDistribution.html">Weibull Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/BetaDistribution.html">Beta Distribution</button>
+                    </div>
+                </details>
+
+                <details class="dist-group">
+                    <summary>
+                        <span class="summary-left"><i class="fa-solid fa-cubes"></i> Discrete Distributions</span>
+                        <i class="fa-solid fa-caret-right summary-caret"></i>
+                    </summary>
+                    <div class="dist-items">
+                        <button class="dist-btn" data-src="../statistical-distributions/BinomialDistribution.html">Binomial Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/PoissonDistribution.html">Poisson Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/GeometricDistribution.html">Geometric Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/HypergeometricDistribution.html">Hypergeometric Distribution</button>
+                    </div>
+                </details>
+
+                <details class="dist-group">
+                    <summary>
+                        <span class="summary-left"><i class="fa-solid fa-flask-vial"></i> H0 Testing Distributions</span>
+                        <i class="fa-solid fa-caret-right summary-caret"></i>
+                    </summary>
+                    <div class="dist-items">
+                        <button class="dist-btn" data-src="../statistical-distributions/ChiSquare.html">Chi-Square Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/FDistribution.html">F Distribution</button>
+                        <button class="dist-btn" data-src="../statistical-distributions/TDistribution.html">t Distribution</button>
+                    </div>
+                </details>
             </div>
         </aside>
 
@@ -220,7 +302,8 @@
                 buttons.forEach(function (b) { b.classList.remove("active"); });
                 btn.classList.add("active");
                 frame.src = btn.getAttribute("data-src");
-                title.innerHTML = '<i class="fa-solid fa-chart-line"></i> ' + btn.textContent + ' Distribution Calculator';
+                var label = btn.textContent.trim();
+                title.innerHTML = '<i class="fa-solid fa-chart-line"></i> ' + label + ' Calculator';
             });
         });
 
