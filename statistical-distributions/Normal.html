@@ -1913,15 +1913,15 @@
         }
     </script>
     <script>
-// Debounce helper
-const debounce = (fn, ms=150) => { let t; return (...a)=>{clearTimeout(t); t=setTimeout(()=>fn(...a),ms);} };
+// Debounce helper (renamed to avoid duplicate declaration)
+const debounceLite = (fn, ms=150) => { let t; return (...a)=>{clearTimeout(t); t=setTimeout(()=>fn(...a),ms);} };
 
 // Mobile 100vh fix (optional if you use vh)
 function setVh(){ document.documentElement.style.setProperty('--vh', `${window.innerHeight*0.01}px`); }
 setVh(); addEventListener('resize', setVh); addEventListener('orientationchange', setVh);
 
 // Reflow charts on resize
-addEventListener('resize', debounce(()=> {
+addEventListener('resize', debounceLite(()=> {
   // Highcharts
   if (window.Highcharts) Highcharts.charts.filter(Boolean).forEach(c=>c.reflow());
   // If using D3 SVG, ensure you set a viewBox when you create it and it will scale with CSS.
