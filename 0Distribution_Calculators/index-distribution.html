@@ -295,7 +295,53 @@
             }
         }
 
-        frame.addEventListener("load", hideEmbeddedHeader);
+        function applyNormalLayoutProfile() {
+            try {
+                var doc = frame.contentDocument || frame.contentWindow.document;
+                if (!doc) return;
+                if (!doc.getElementById("shellNormalLayoutStyle")) {
+                    var style = doc.createElement("style");
+                    style.id = "shellNormalLayoutStyle";
+                    style.textContent = [
+                        "html, body { width: 100% !important; height: 100% !important; overflow: hidden !important; }",
+                        "body { margin: 0 !important; }",
+                        ".main-container, .content-wrapper, #mainContentWrapper, .container {",
+                        "  width: 100% !important; max-width: none !important; height: 100% !important;",
+                        "}",
+                        ".container { margin: 0 !important; padding: 10px !important; border-radius: 12px !important; }",
+                        ".main-content {",
+                        "  display: grid !important;",
+                        "  grid-template-columns: minmax(320px, 34%) 1fr !important;",
+                        "  gap: 14px !important;",
+                        "  align-items: start !important;",
+                        "}",
+                        ".control-panel, .controls-panel, .input-panel { width: 100% !important; max-width: none !important; }",
+                        ".visualization-panel, .results-panel { width: 100% !important; max-width: none !important; min-height: 0 !important; }",
+                        "@media (max-width: 1200px) {",
+                        "  .main-content { grid-template-columns: minmax(300px, 34%) 1fr !important; }",
+                        "}"
+                    ].join("");
+                    doc.head.appendChild(style);
+                }
+
+                var panels = doc.querySelectorAll("h3, h4, .panel-title");
+                panels.forEach(function (el) {
+                    var txt = (el.textContent || "").trim();
+                    if (txt.indexOf("Input Panel") >= 0) {
+                        el.textContent = "Inputs";
+                    } else if (txt.indexOf("Results Panel - Visualizations & Statistics") >= 0) {
+                        el.textContent = "Results";
+                    }
+                });
+            } catch (e) {
+                // Ignore cross-origin / transient errors.
+            }
+        }
+
+        frame.addEventListener("load", function () {
+            hideEmbeddedHeader();
+            applyNormalLayoutProfile();
+        });
 
         buttons.forEach(function (btn) {
             btn.addEventListener("click", function () {
@@ -308,6 +354,7 @@
         });
 
         hideEmbeddedHeader();
+        applyNormalLayoutProfile();
     })();
 </script>
 </body>
